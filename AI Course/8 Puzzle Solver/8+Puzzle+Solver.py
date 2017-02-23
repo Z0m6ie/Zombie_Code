@@ -243,7 +243,15 @@ dfs(initialstate)
 def ast(initialState):
     god_node = createnode(initialstate, 'none', '', 0, 0)
     explored.add(tuple(god_node.state))
-
+    reversefrontieradd(god_node)
+    # while frontier != deque([]):
+    #     state = frontier.pop()
+    #     explored.add(tuple(state.state))
+    #     if goalTest(state.state) == 'Success':
+    #         return state.state, state.operator, state.depth
+    #     else:
+    #         reversefrontieradd(state)
+    # return 'fail'
 
 # In[ ]:
 

@@ -67,27 +67,27 @@
 # """
 
 # In[3]:
-
+import sys
 from collections import deque
 from math import sqrt
 import timeit
 import heapq
-board = 8, 6, 7, 2, 5, 4, 3, 0, 1
+# board = 8, 6, 7, 2, 5, 4, 3, 0, 1
 # hard 8,6,7,2,5,4,3,0,1
 frontier = deque()
 explored = set()
-initialstate = list(board)
+# initialstate = list(board)
 path_to_node = set()
 h = []
 
-moveleft = []
-moveright = []
-for i, val in enumerate(board):
-    if i == 0 or (i % (sqrt(len(board))) == 0):
-        moveleft.append(i)
-    if i == 0 or (i % (sqrt(len(board))) == 0):
-        moveright.append(i-1)
-        moveright[0] = len(board)-1
+# moveleft = []
+# moveright = []
+# for i, val in enumerate(board):
+#     if i == 0 or (i % (sqrt(len(board))) == 0):
+#         moveleft.append(i)
+#     if i == 0 or (i % (sqrt(len(board))) == 0):
+#         moveright.append(i-1)
+#         moveright[0] = len(board)-1
 
 
 # In[4]:
@@ -214,11 +214,15 @@ def bfs(initialstate):
         state = frontier.popleft()
         explored.add(tuple(state.state))
         if goalTest(state.state) == 'Success':
-            return state.state, state.operator, state.depth
+            finalstate = state.state
+            finalpath = state.operator
+            text_file = open("Output.txt", "w")
+            text_file.write("path_to_goal: %r" + "\n"
+                            "path_to_goal: %r" % (finalstate, finalpath))
+            text_file.close()
         else:
             frontieradd(state)
     return 'fail'
-bfs(initialstate)
 
 
 # In[10]:
@@ -235,34 +239,51 @@ def dfs(initialState):
         else:
             reversefrontieradd(state)
     return 'fail'
-dfs(initialstate)
 
 
 # In[ ]:
 
-def ast(initialState):
-    god_node = createnode(initialstate, 'none', '', 0, 0)
-    explored.add(tuple(god_node.state))
-    reversefrontieradd(god_node)
-    # while frontier != deque([]):
-    #     state = frontier.pop()
-    #     explored.add(tuple(state.state))
-    #     if goalTest(state.state) == 'Success':
-    #         return state.state, state.operator, state.depth
-    #     else:
-    #         reversefrontieradd(state)
-    # return 'fail'
-
-# In[ ]:
-
-# #END OF TEST
-# for i in frontier:
-#     if tuple(i) not in explored:
-#         print('true')
-#     else:
-#         print('false')
+# def ast(initialState):
+#     god_node = createnode(initialstate, 'none', '', 0, 0)
+#     explored.add(tuple(god_node.state))
+#     reversefrontieradd(god_node)
+#     # while frontier != deque([]):
+#     #     state = frontier.pop()
+#     #     explored.add(tuple(state.state))
+#     #     if goalTest(state.state) == 'Success':
+#     #         return state.state, state.operator, state.depth
+#     #     else:
+#     #         reversefrontieradd(state)
+#     # return 'fail'
 
 
-# In[20]:
+def main():
+    # This command-line parsing code is provided.
+    # Make a list of command line arguments, omitting the [0] element
+    # which is the script itself.
+    args = sys.argv[1:]
 
-len(explored)
+    if not args:
+        print('usage: [--script] (bfs, dfs, ast, ida) (board config 1,2,0,..)')
+        sys.exit(1)
+
+    board = args[0]
+    initialstate = list(board)
+    moveleft = []
+    moveright = []
+    for i, val in enumerate(board):
+        if i == 0 or (i % (sqrt(len(board))) == 0):
+            moveleft.append(i)
+        if i == 0 or (i % (sqrt(len(board))) == 0):
+            moveright.append(i-1)
+            moveright[0] = len(board)-1
+
+    if args[1] == 'bfs':
+        bfs(initialstate)
+
+    elif args[1] == 'dfs':
+        dfs(initialstate)
+
+
+if __name__ == '__main__':
+    main()

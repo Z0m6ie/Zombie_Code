@@ -172,7 +172,7 @@ def possible_moves(recentstate):
 def frontieradd(currentstate):
     for i in possible_moves(currentstate.state):
         node = createnode((move(i, currentstate.state)), currentstate.state,
-                          currentstate.operator + '%s, ' % (i),
+                          currentstate.operator + '%s,' % (i),
                           currentstate.depth+1, 0)
         if tuple(node.state) not in explored:
             frontier.append(node)
@@ -196,7 +196,7 @@ def frontieradd(currentstate):
 def reversefrontieradd(currentstate):
     for i in reversed(possible_moves(currentstate.state)):
         node = createnode((move(i, currentstate.state)), currentstate.state,
-                          currentstate.operator + '%s, ' % (i),
+                          currentstate.operator + '%s,' % (i),
                           currentstate.depth+1, 0)
         if tuple(node.state) not in explored:
             frontier.append(node)
@@ -227,17 +227,27 @@ def bfs(initialstate):
 
 # In[10]:
 
-def dfs(initialState):
+
+def bfs(initialstate):
     god_node = createnode(initialstate, 'none', '', 0, 0)
     explored.add(tuple(god_node.state))
-    reversefrontieradd(god_node)
+    frontieradd(god_node)
     while frontier != deque([]):
-        state = frontier.pop()
+        state = frontier.popleft()
         explored.add(tuple(state.state))
         if goalTest(state.state) == 'Success':
-            return state.state, state.operator, state.depth
+            finalpath = state.operator
+            finalpath = finalpath.split(",")
+            cost = len(finalpath)
+            finaldepth = state.depth
+            text_file = open("Output.txt", "w")
+            text_file.write("path_to_goal: %r" % (finalpath) + "\n"
+                            "cost_of_path: %r" % cost + "\n"
+                            "search_depth: %r" % finaldepth)
+            text_file.close()
+            return 'Success'
         else:
-            reversefrontieradd(state)
+            frontieradd(state)
     return 'fail'
 
 
@@ -261,14 +271,15 @@ def main():
     # This command-line parsing code is provided.
     # Make a list of command line arguments, omitting the [0] element
     # which is the script itself.
-    args = sys.argv[1:]
+    args = sys.argv
 
     if not args:
         print('usage: [--script] (bfs, dfs, ast, ida) (board config 1,2,0,..)')
         sys.exit(1)
 
-    board = args[0]
+    board = args[2]
     initialstate = list(board)
+
     moveleft = []
     moveright = []
     for i, val in enumerate(board):

@@ -15,7 +15,8 @@
 import sys
 from collections import deque
 from math import sqrt
-import timeit
+import time
+start_time = time.time()
 import heapq
 # board = 8, 6, 7, 2, 5, 4, 3, 0, 1
 # hard 8,6,7,2,5,4,3,0,1
@@ -133,10 +134,11 @@ def main():
                 finalpath = finalpath.split(",")
                 cost = len(finalpath)
                 finaldepth = state.depth
-                text_file = open("Output.txt", "w")
+                text_file = open("output.txt", "w")
                 text_file.write("path_to_goal: %r" % (finalpath) + "\n"
                                 "cost_of_path: %r" % cost + "\n"
-                                "search_depth: %r" % finaldepth)
+                                "search_depth: %r" % finaldepth + "\n"
+                                "running_time:%r" % (time.time() - start_time))
                 text_file.close()
                 return 'Success'
             else:

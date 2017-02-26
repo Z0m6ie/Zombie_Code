@@ -1,0 +1,4 @@
+path_to_goal: ['Up', 'Up', 'Left', 'Down', 'Right', 'Down', 'Right', 'Up', 'Up', 'Left', 'Down', 'Down', 'Left', 'Up', 'Right', 'Down', 'Right', 'Up', 'Up', 'Left', 'Left', 'Down', 'Right', 'Down', 'Right', 'Up', 'Up', 'Left', 'Left', '']
+cost_of_path: 30
+search_depth: 29
+running_time:4.008365631103516

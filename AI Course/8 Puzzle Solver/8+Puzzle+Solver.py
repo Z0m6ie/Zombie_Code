@@ -92,7 +92,7 @@ def main():
         holeLoc = recentstate.index(0)
         # possible moves
         moveOrder = deque()
-        if holeLoc > sqrt(len(board)):
+        if holeLoc >= sqrt(len(board)):
             moveOrder.append('Up')
         if holeLoc < (len(board) - sqrt(len(board))):
             moveOrder.append('Down')
@@ -138,7 +138,7 @@ def main():
                 text_file = open("output.txt", "w")
                 text_file.write("path_to_goal: %r" % (finalpath) + "\n"
                                 "cost_of_path: %r" % cost + "\n"
-                                "nodes_expanded: %r" % explored + "\n"
+                                "nodes_expanded: %r" % len(explored) + "\n"
                                 "fringe_size: %r" % len(frontier) + "\n"
                                 "search_depth: %r" % finaldepth + "\n"
                                 "running_time: %r" % (time.time() - start_time) + "\n"

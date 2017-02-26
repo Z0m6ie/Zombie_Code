@@ -12,7 +12,7 @@
 # """
 
 # In[3]:
-import sys
+import sys, os, resource
 from collections import deque
 from math import sqrt
 import time
@@ -134,11 +134,15 @@ def main():
                 finalpath = finalpath.split(",")
                 cost = len(finalpath)
                 finaldepth = state.depth
+                mem_usage = (resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)/1000
                 text_file = open("output.txt", "w")
                 text_file.write("path_to_goal: %r" % (finalpath) + "\n"
                                 "cost_of_path: %r" % cost + "\n"
+                                "nodes_expanded: %r" % explored + "\n"
+                                "fringe_size: %r" % len(frontier) + "\n"
                                 "search_depth: %r" % finaldepth + "\n"
-                                "running_time:%r" % (time.time() - start_time))
+                                "running_time: %r" % (time.time() - start_time) + "\n"
+                                "max_ram_usage: %r" % mem_usage)
                 text_file.close()
                 return 'Success'
             else:

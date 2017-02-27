@@ -48,8 +48,8 @@ def main():
     frontier = deque()
     explored = set()
     frontierset = set()
-    max_fringe = []
-    max_depth = []
+    max_fringe = set()
+    max_depth = set()
     h = []
 
     class Node:
@@ -112,8 +112,8 @@ def main():
             if tuple(newnode.state) not in explored and tuple(newnode.state) not in frontierset:
                 frontierset.add(tuple(newnode.state))
                 frontier.append(newnode)
-                max_fringe.append(len(frontier))
-                max_depth.append(newnode.depth)
+                max_fringe.add(len(frontier))
+                max_depth.add(newnode.depth)
         return frontier
 
 
@@ -124,8 +124,8 @@ def main():
             if tuple(newnode.state) not in explored and tuple(newnode.state) not in frontierset:
                 frontierset.add(tuple(newnode.state))
                 frontier.append(newnode)
-                max_fringe.append(len(frontier))
-                max_depth.append(newnode.depth)
+                max_fringe.add(len(frontier))
+                max_depth.add(newnode.depth)
         return frontier
 
 

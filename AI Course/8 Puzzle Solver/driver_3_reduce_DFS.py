@@ -117,7 +117,8 @@ def main():
                 max_fringe.add(len(frontier))
                 max_depth.add(newnode.depth)
         return frontier
-
+# Trying to reduce DFS memory usage by getting rid of large mem use
+# from max_depth and max_fringe
     def reversefrontieradd(node):
         for i in reversed(possible_moves(node.state)):
             newnode = createnode((move(i, node.state)), node.state,
@@ -125,8 +126,16 @@ def main():
             if tuple(newnode.state) not in explored and tuple(newnode.state) not in frontierset:
                 frontierset.add(tuple(newnode.state))
                 frontier.append(newnode)
-                max_fringe.add(len(frontier))
-                max_depth.add(newnode.depth)
+                if max_fringe == set():
+                    max_fringe.add(len(frontier))
+                elif len(frontier) > int(max_fringe.pop()):
+                    max_fringe.clear()
+                    max_fringe.add(len(frontier))
+                if max_depth == set():
+                    max_depth.add(newnode.depth)
+                elif newnode.depth > int(max_depth.pop()):
+                    max_depth.clear()
+                    max_depth.add(newnode.depth)
         return frontier
 
     def bfs(initialstate):
